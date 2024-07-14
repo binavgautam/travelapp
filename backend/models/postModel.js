@@ -23,6 +23,7 @@ Post.init(
     },
     postedDate: {
       type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
     /*user relation:{
         id:

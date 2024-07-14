@@ -1,5 +1,5 @@
 // Console.logger and Console.error from one place to keep track of logs
-const info = (...param) => {
+const info = (...params) => {
   console.log(params);
 };
 

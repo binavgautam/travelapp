@@ -20,6 +20,7 @@ const App = () => {
   const addPost = async (e) => {
     e.preventDefault();
     try {
+      console.log(formData);
       const res = await postService.create(formData);
       setPosts([...posts, res.data]);
       setFormData({
@@ -38,8 +39,6 @@ const App = () => {
 
   const deletePost = async (e) => {
     e.preventDefault();
-    try {
-    } catch (error) {}
   };
 
   const handleChange = (e) => {
@@ -67,7 +66,7 @@ const App = () => {
       <br />
       <h2>Add New Post:</h2>
       <NewPost
-        addPosts={addPost}
+        addPost={addPost}
         formData={formData}
         handleChange={handleChange}
       />

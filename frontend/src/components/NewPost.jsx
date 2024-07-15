@@ -1,37 +1,86 @@
-const NewPost = ({ addPost, handleChange, formData }) => {
+import { useState } from "react";
+
+const NewPost = ({ formData, addPost, handleChange }) => {
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.flightName) {
+      newErrors.flightName = "Flight Name is required.";
+    }
+    if (!formData.flightCode) {
+      newErrors.flightCode = "Flight Number is required.";
+    }
+    if (!formData.flightDate) {
+      newErrors.flightDate = "Flight Date is required.";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setTimeout(() => {
+        setErrors({});
+      }, 1000);
+    } else {
+      setErrors({});
+      addPost(e);
+    }
+  };
+
   return (
     <div>
-      <form onSubmit={addPost}>
+      <form onSubmit={handleSubmit}>
         <div className="flex gap-6 mb-6 md:grid-cols-2">
           <div>
-            <label>Flight Name:</label>
-            <input
-              type="text"
-              name="flightName"
-              className="input-field"
-              value={formData.flightName}
-              onChange={handleChange}
-            />
+            <label>
+              Flight Name:
+              <input
+                type="text"
+                name="flightName"
+                className="input-field"
+                value={formData.flightName}
+                onChange={handleChange}
+              />
+              {errors.flightName && (
+                <p className="text-red-500">{errors.flightName}</p>
+              )}
+            </label>
           </div>
           <div>
-            <label>Flight Number:</label>
-            <input
-              type="text"
-              name="flightCode"
-              className="input-field"
-              value={formData.flightCode}
-              onChange={handleChange}
-            />
+            <label>
+              Flight Number:
+              <input
+                type="text"
+                name="flightCode"
+                className="input-field"
+                value={formData.flightCode}
+                onChange={handleChange}
+              />
+              {errors.flightCode && (
+                <p className="text-red-500">{errors.flightCode}</p>
+              )}
+            </label>
           </div>
           <div>
-            <label>Flight Date:</label>
-            <input
-              type="text"
-              name="flightDate"
-              className="input-field"
-              value={formData.flightDate}
-              onChange={handleChange}
-            />
+            <label>
+              Flight Date:
+              <input
+                type="date"
+                name="flightDate"
+                className="input-field"
+                value={formData.flightDate}
+                onChange={handleChange}
+              />
+              {errors.flightDate && (
+                <p className="text-red-500">{errors.flightDate}</p>
+              )}
+            </label>
           </div>
           <br />
         </div>

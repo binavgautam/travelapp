@@ -5,11 +5,6 @@ import Posts from "./components/Posts";
 
 const App = () => {
   const [posts, setPosts] = useState([]);
-  const [formData, setFormData] = useState({
-    flightName: "",
-    flightCode: "",
-    flightDate: "",
-  });
 
   useEffect(() => {
     postService.getAll().then((res) => {
@@ -17,43 +12,38 @@ const App = () => {
     });
   }, []);
 
-  const addPost = async (e) => {
-    e.preventDefault();
+  const addPost = async (data) => {
     try {
-      console.log(formData);
-      const res = await postService.create(formData);
+      const res = await postService.create(data);
       setPosts([...posts, res.data]);
-      setFormData({
-        flightName: "",
-        flightCode: "",
-        flightDate: "",
-      });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const updatePost = async (e) => {
-    e.preventDefault();
+  const updatePost = async ({ id, data }) => {
+    try {
+      const res = await postService.update(id, data);
+      setPosts(posts.map((post) => (post.id === id ? res.data : post)));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const deletePost = async (e) => {
-    e.preventDefault();
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const deletePost = async (id) => {
+    try {
+      await postService.remove(id);
+      setPosts(posts.filter((post) => post.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div>
-      <h1 className="text-4xl">Travel App</h1>
-      <h2>Current Posts: </h2>
-      <ul>
+    <div className="max-w-4xl mx-auto p-4">
+      <h1 className="text-4xl mb-6">Travel Finder App</h1>
+      <h2 className="text-2xl mb-4">Current Posts:</h2>
+      <ul className="space-y-4">
         {posts.map((post) => (
           <Posts
             key={post.id}
@@ -63,13 +53,8 @@ const App = () => {
           />
         ))}
       </ul>
-      <br />
-      <h2>Add New Post:</h2>
-      <NewPost
-        addPost={addPost}
-        formData={formData}
-        handleChange={handleChange}
-      />
+      <h2 className="text-2xl mt-8 mb-4">Add New Post:</h2>
+      <NewPost addPost={addPost} />
     </div>
   );
 };

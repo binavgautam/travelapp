@@ -13,12 +13,28 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    flightCode: {
+    flightNumber: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     flightDate: {
       type: DataTypes.DATE,
+      allowNull: false,
+    },
+    fromAirport: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    toAirport: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    fromLocation: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    toLocation: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     postedDate: {

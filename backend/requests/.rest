@@ -10,8 +10,13 @@ Content-Type: application/json
 
 {
     "flightName": "Jet Airways",
-    "flightCode": "JT 03",
-    "flightDate": "2024-07-06"
+    "flightNumber": "JT 03",
+    "flightDate": "2024-07-06",
+    "fromAirport": "DFW",
+    "toAirport": "DEL",
+    "fromLocation": "Dallas",
+    "toLocation": "New Delhi"
+    
 }
 
 ###

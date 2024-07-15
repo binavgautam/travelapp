@@ -1,92 +1,143 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-const NewPost = ({ formData, addPost, handleChange }) => {
-  const [errors, setErrors] = useState({});
+const NewPost = ({ addPost }) => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.flightName) {
-      newErrors.flightName = "Flight Name is required.";
-    }
-    if (!formData.flightCode) {
-      newErrors.flightCode = "Flight Number is required.";
-    }
-    if (!formData.flightDate) {
-      newErrors.flightDate = "Flight Date is required.";
-    }
-
-    return newErrors;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      setTimeout(() => {
-        setErrors({});
-      }, 1000);
-    } else {
-      setErrors({});
-      addPost(e);
-    }
+  const onSubmit = (data) => {
+    addPost(data);
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className="flex gap-6 mb-6 md:grid-cols-2">
+    <div className="max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="space-y-4">
           <div>
-            <label>
+            <label className="block text-gray-700 font-bold mb-2">
               Flight Name:
               <input
                 type="text"
-                name="flightName"
-                className="input-field"
-                value={formData.flightName}
-                onChange={handleChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register("flightName", {
+                  required: "Flight Name is required",
+                })}
               />
               {errors.flightName && (
-                <p className="text-red-500">{errors.flightName}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.flightName.message}
+                </p>
               )}
             </label>
           </div>
           <div>
-            <label>
+            <label className="block text-gray-700 font-bold mb-2">
               Flight Number:
               <input
                 type="text"
-                name="flightCode"
-                className="input-field"
-                value={formData.flightCode}
-                onChange={handleChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register("flightNumber", {
+                  required: "Flight Number is required",
+                })}
               />
-              {errors.flightCode && (
-                <p className="text-red-500">{errors.flightCode}</p>
+              {errors.flightNumber && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.flightNumber.message}
+                </p>
               )}
             </label>
           </div>
           <div>
-            <label>
+            <label className="block text-gray-700 font-bold mb-2">
               Flight Date:
               <input
                 type="date"
-                name="flightDate"
-                className="input-field"
-                value={formData.flightDate}
-                onChange={handleChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register("flightDate", {
+                  required: "Flight Date is required",
+                })}
               />
               {errors.flightDate && (
-                <p className="text-red-500">{errors.flightDate}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.flightDate.message}
+                </p>
               )}
             </label>
           </div>
-          <br />
+          <div>
+            <label className="block text-gray-700 font-bold mb-2">
+              From Airport:
+              <input
+                type="text"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register("fromAirport", {
+                  required: "Departure Airport is required",
+                })}
+              />
+              {errors.fromAirport && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.fromAirport.message}
+                </p>
+              )}
+            </label>
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold mb-2">
+              To Airport:
+              <input
+                type="text"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register("toAirport", {
+                  required: "Arrival Airport is required",
+                })}
+              />
+              {errors.toAirport && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.toAirport.message}
+                </p>
+              )}
+            </label>
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold mb-2">
+              From Location:
+              <input
+                type="text"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register("fromLocation", {
+                  required: "Departure Location is required",
+                })}
+              />
+              {errors.fromLocation && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.fromLocation.message}
+                </p>
+              )}
+            </label>
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold mb-2">
+              To Location:
+              <input
+                type="text"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register("toLocation", {
+                  required: "Arrival Location is required",
+                })}
+              />
+              {errors.toLocation && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.toLocation.message}
+                </p>
+              )}
+            </label>
+          </div>
         </div>
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="mt-4 w-full bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-red-700"
         >
           Submit
         </button>
